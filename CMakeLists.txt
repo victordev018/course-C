@@ -8,3 +8,5 @@ add_executable(lab_whats_your_name "introduction C language/LABS/whats your name
 add_executable(floating_point "introduction C language/data types/floating point/main.c")
 add_executable(operation "introduction C language/data types/operations/operations.c")
 add_executable(character "introduction C language/data types/characters/main.c")
+add_executable(if_else "introduction C language/flow control/if_else/main.c")
+add_executable(switch "introduction C language/flow control/switch_case/main.c")
