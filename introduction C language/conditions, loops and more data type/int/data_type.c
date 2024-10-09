@@ -10,5 +10,8 @@ int main(void){
     short familyMembers = 7;        // avoids wasting space that does not need to be use
     long long humansInWorld = 8E9;  // 8 bi persons, the long type increases the space capacity for the variable
 
+    // to ensure that the variable can only store positive values we use unsigned
+    unsigned short parents = 2;
+
     return 0;
 }
