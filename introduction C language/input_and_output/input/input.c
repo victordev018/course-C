@@ -5,7 +5,7 @@
 
 int main(void) 
 {
-
+    printf("%d", 0x8);
     // variables
     float value, square;
 
