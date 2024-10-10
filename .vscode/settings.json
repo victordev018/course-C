@@ -1,0 +1,9 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "cSpell.words": [
+        "hagsd"
+    ],
+    "files.associations": {
+        "stdio.h": "c"
+    }
+}
