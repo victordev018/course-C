@@ -11,5 +11,10 @@ int main(void)
 
     int *p;
 
+    // We can assign the pointer a value that points to any already existing variable.
+    int number = 10;
+
+    p = &number;  // now p points to the memory address where the value 10 is stored;
+
     return 0;
 }
