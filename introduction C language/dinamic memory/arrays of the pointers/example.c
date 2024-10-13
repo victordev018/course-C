@@ -31,8 +31,14 @@ int main(void){
             printf("%d ", *(*(matrix+c)+r));    // equivalence -> matrix[r][c]
         }
         printf("]");
-        printf("\n");
+    }   
+    printf("\n\n");
+
+    // free memory
+    for (int r = 0; r < rows; r++) {
+        free(matrix[r]); // free rows
     }
+    free(matrix); // free main matrix
 
     return 0;
 }
