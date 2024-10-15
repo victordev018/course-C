@@ -52,5 +52,10 @@ int main()
     // show data of student
     showStudent(student);
 
+    // another way to initialize the values ​​of a structure type variable
+    // If you do not pass a value, 0 will be assigned
+    struct Student student2 = {"Alan Walker", 35, {12, 4, 1988}};
+    showStudent(student2);
+
     return 0;
 }
