@@ -44,4 +44,5 @@ int main()
     printf("\n| -> bigger: %d", bigger);
     printf("\n| -> smaller: %d\n\n", smaller);
 
+    return 0;
 }
