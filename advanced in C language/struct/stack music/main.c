@@ -19,10 +19,24 @@ typedef struct playlist{
 
 }Playlist;
 
+void clearScreen(){
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
+
 // function to initialize Playlist
 void initializePlaylist(Playlist *p){
     p->top = NULL;
     p->size = 0;
+}
+
+// function press enter to go back
+void pressEnterToContinue(char *message){
+    printf("%s\n", message);
+    scanf("%[^\n]");
 }
 
 Music * getMusic();
@@ -37,6 +51,8 @@ void push(Playlist *p){
         newTop->next = p->top;
         p->top = newTop;
         p->size++;
+        printf("\nmusic added successfully");
+        pressEnterToContinue("\npress enter to continue");
     }
     else{
         printf("\nFailed to alloc memory\n");
@@ -59,14 +75,20 @@ void pop(Playlist *p){
             remove = p->top;
             p->top = remove->next;
             p->size--;
+            printf("\nmusic removed successfully");
             free(remove);
+            pressEnterToContinue("press enter to continue");
         }
         else{
             printf("\nFailed to alloc memory\n");
+            getchar();
+            pressEnterToContinue("press enter to continue");
         }
 
     }
     else{
+        getchar();
+        pressEnterToContinue("press enter to continue");
         printf("\nFailed to remove, caused by: playlist is empty\n");
     }
 
@@ -82,6 +104,8 @@ Music * peek(Playlist *p){
     }
     else{
         printf("\nFailed to get last music, caused by: playlist is empty\n");
+        getchar();
+        pressEnterToContinue("\npress enter to continue");
     }
 }
 
@@ -101,9 +125,13 @@ void showPLaylist(Playlist *p){
             current = current->next;
         }
         printf("\n------------------------------------------------------------\n",p->size);
+        getchar();
+        pressEnterToContinue("press enter to continue");
     }
     else{
         printf("\nPLaylist is empty\n");
+        getchar();
+        pressEnterToContinue("press enter to continue");
     }
 }
 
@@ -115,6 +143,7 @@ Music * getMusic(){
     if(music){
         // read data
         printf("\n> music name: ");
+        getchar();
         scanf("%[^\n]",music->name);
         getchar();
         printf("> music singer: ");
@@ -124,30 +153,68 @@ Music * getMusic(){
         scanf("%[^\n]",music->duration);
         getchar();
     }
-    
     return music;
     
+}
+
+// function to show main menu
+void showMainMenu(){
+    char menu[500] = {"----------- menu ------------\n| 1 - add music\n| 2 - show playlist\n| 3 - get last music\n| 4 - remove last music\n| 5 - quit\n|-> option: "};
+    printf("%s", menu);
 }
 
 int main()
 {
 
-    // Playlist *p = (Playlist *) malloc(sizeof(Playlist));
-    // initializePlaylist(p);
-    // push(p);
-    // push(p);
-    // showPLaylist(p);
+    // initialize Playlist
+    Playlist *p = (Playlist *) malloc(sizeof(Playlist));
+    initializePlaylist(p);
 
-    // printf("\nremoving last music of the playlist\n");
+    if (p){
+        int option;
+        
+        do{
 
-    // pop(p);
-    
-    // printf("\nGet the last music in playlist:\n");
-    // showMusic(peek(p));
+            clearScreen();
+            // read option
+            showMainMenu();
+            scanf("%d", &option);
 
-    char menu[500] = {"----------- menu ------------\n| 1 - add music\n| 2 - show playlist\n| 3 - get last music\n| 4 - remove last music\n|\n|-> option: "};
-
-    printf("%s", menu);
+            switch (option){
+                case 1:
+                    // add music
+                    clearScreen();
+                    push(p);
+                    break;
+                case 2:
+                    // show playlist
+                    clearScreen();
+                    showPLaylist(p);
+                    break;
+                case 3:
+                    // get last music in playlist
+                    clearScreen();
+                    pressEnterToContinue("\nin production");
+                    break;
+                case 4:
+                    // remove the last music in playlist
+                    clearScreen();
+                    pop(p);
+                    break;
+                case 5:
+                    // close system
+                    clearScreen();
+                    free(p);
+                    return 0;
+                default:
+                    clearScreen();
+                    printf("\ninvalid option!\n");
+            }
+        }while(option != 5);
+    }
+    else{
+        printf("\nFailed to initialize PLaylist\n");
+    }
 
     return 0;
 }
