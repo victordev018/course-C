@@ -44,10 +44,9 @@ Music * getMusic();
 // function to add new music in top of the Playlist
 void push(Playlist *p){
 
-    Music *newTop = (Music *) malloc(sizeof(Music));
+    Music *newTop = getMusic();
 
     if (newTop){
-        newTop = getMusic();
         newTop->next = p->top;
         p->top = newTop;
         p->size++;
@@ -68,28 +67,18 @@ int isEmpty(Playlist *p){
 void pop(Playlist *p){
 
     if(!isEmpty(p)){
-
-        Music *remove = (Music *) malloc(sizeof(Music));
-
-        if(remove){
-            remove = p->top;
-            p->top = remove->next;
-            p->size--;
-            printf("\nmusic removed successfully");
-            free(remove);
-            pressEnterToContinue("press enter to continue");
-        }
-        else{
-            printf("\nFailed to alloc memory\n");
-            getchar();
-            pressEnterToContinue("press enter to continue");
-        }
-
+        Music *remove = p->top;
+        p->top = remove->next;
+        p->size--;
+        printf("\nmusic removed successfully");
+        free(remove);
+        getchar();
+        pressEnterToContinue("\npress enter to continue");
     }
     else{
+        printf("\nFailed to remove, caused by: playlist is empty\n");
         getchar();
         pressEnterToContinue("press enter to continue");
-        printf("\nFailed to remove, caused by: playlist is empty\n");
     }
 
 }
@@ -102,11 +91,12 @@ Music * peek(Playlist *p){
         return p->top;
 
     }
-    else{
-        printf("\nFailed to get last music, caused by: playlist is empty\n");
-        getchar();
-        pressEnterToContinue("\npress enter to continue");
-    }
+    
+    printf("\nFailed to get last music, caused by: playlist is empty\n");
+    getchar();
+    pressEnterToContinue("\npress enter to continue");
+    return NULL;
+    
 }
 
 // function to show music
@@ -135,6 +125,30 @@ void showPLaylist(Playlist *p){
     }
 }
 
+// function to show the last music
+void showLastMusic(Playlist *p){
+
+    if(!isEmpty(p)){
+        Music *m = peek(p);
+        if(m){
+            showMusic(m);
+            getchar();
+            pressEnterToContinue("\npress enter to continue");
+        }
+        else{
+            printf("\nFailed to get last music, caused by: playlist is empty");
+            getchar();
+            pressEnterToContinue("\npress enter to continue");
+        }
+        
+    }
+    else{
+        printf("\nFailed to show last music, caused by: playlist is empty\n");
+        getchar();
+        pressEnterToContinue("\npress enter to continue");
+    }
+}
+
 // function to read and return a Music
 Music * getMusic(){
 
@@ -152,8 +166,9 @@ Music * getMusic(){
         printf("> music duration (ex 02:30): ");
         scanf("%[^\n]",music->duration);
         getchar();
+        return music;
     }
-    return music;
+    return NULL;
     
 }
 
@@ -194,7 +209,7 @@ int main()
                 case 3:
                     // get last music in playlist
                     clearScreen();
-                    pressEnterToContinue("\nin production");
+                    showLastMusic(p);
                     break;
                 case 4:
                     // remove the last music in playlist
@@ -209,6 +224,8 @@ int main()
                 default:
                     clearScreen();
                     printf("\ninvalid option!\n");
+                    getchar();
+                    pressEnterToContinue("\npress enter to continue");
             }
         }while(option != 5);
     }
