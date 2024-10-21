@@ -37,6 +37,8 @@ void read(char *pathFile){
             currentChar = fgetc(file);
         }
 
+        fclose(file);
+
     }
     else
         printf("\nFailed to open file");
